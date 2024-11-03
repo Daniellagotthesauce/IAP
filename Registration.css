@@ -1,0 +1,103 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body, html {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+}
+
+.Login {
+    display: flex;
+    background-color: #1a1a1a; 
+    padding: 20px;
+    border-radius: 15px;
+    width: 800px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.Food img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.login-form {
+    padding: 30px;
+    background-color: #222; 
+    color: #fff;
+    border-radius: 15px;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.login-form h2 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #333;
+    color: #fff;
+}
+
+.forgot-password {
+    text-align: right;
+    display: block;
+    color: #f5a623;
+    text-decoration: none;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.btn {
+    background-color: #f96332; 
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+.btn:hover {
+    background-color: #e55322;
+}
+
+
+.register-link {
+    text-align: center;
+    color: #fff;
+}
+
+.register-link a {
+    color: #f5a623;
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,31 @@
+// server.js
+const express = require('express');
+const bodyParser = require('body-parser');
+const { newUser } = require('./registration'); // Import registerUser function
+const con = require('./connection'); // Import your MySQL connection
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Middleware to parse form data
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.static('public')); // Serve static files from "public" folder
+
+
+// Handle the form submission
+app.post('/register', (req, res) => {
+    const userData = req.body; // Capture user data from the request
+    newUser(userData, (err, result) => {
+        if (err) {
+            res.status(500).send("Error occurred while registering");
+        } else {
+            res.status(200).send("Registration successful!");
+        }
+    });
+});
+
+// Start the server
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});

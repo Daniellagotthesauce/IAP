@@ -1,0 +1,149 @@
+body, html{
+    margin:0;
+    padding:0;
+    width:100%;
+} 
+header{
+    background-color: black;
+    height: 120px;
+    width:100%;
+    margin: 0;
+   /* padding:0 20px;*/
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+    position: relative;
+    color:white;
+}
+header .Links{
+    display: flex;
+    align-items: center;
+}
+header a{
+    text-decoration: none; 
+    color: white;
+    padding: 10px 20px; 
+    border-radius: 5px; 
+    transition: 0.03s ; 
+    margin-left: 20px;
+}
+.Logo{
+    margin-left: 10px; 
+}
+.Logo img{
+    height:100px;
+    width: auto;
+    border-radius:10px;
+}
+body{
+    background-color:black;
+
+}
+.Content{
+    display: flex;
+    justify-content: space-between;
+    justify-content: center;
+    margin-top:0px;
+    color: white;
+}
+.Phrase{
+    letter-spacing: 2px;
+    font-size:xx-large;
+    margin: 100px;
+    margin-top: 100px;
+    justify-content: center;
+    font-weight:bold;
+    width:50%;
+    margin-bottom: 0px;
+    margin-left: 250px;
+}
+.Intro{
+    letter-spacing: normal;
+    margin-top:10px;
+    font-size: large;
+    font-weight: bold;
+}
+.Search input[type="text"] {
+    margin: 0px;
+    margin-top: 0px;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    width: 350px;
+    margin-right: 10px; /*Add space between input and button */
+    background-color: white ;
+}
+.Search button {
+    padding: 10px 20px;
+    border-radius: 20px;
+    background-color: grey;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+.Karibu{
+    text-align: center;
+    font-size: xx-large;
+    font-weight: bolder;
+    color: white;
+}
+.dark{
+    margin: 100px;
+    margin-top: 10px;
+    width:50%;
+}
+.dark img{
+    height: 100px;
+    border-radius: 10px;  
+}
+.Content2{
+    display: flex;
+    justify-content: space-around; 
+    flex-wrap: wrap; 
+    background: white;
+  
+}
+.Content2 .box{
+    background:white;  
+    box-shadow: 0 25px 25px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    text-align: left;
+    width: 300px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: background-color 0.3s, border-color 0.3s;
+    color:black;
+}
+.Content2 .box img {
+    width: 300px; 
+    height: 250px; 
+    object-fit: cover;
+}
+footer{
+    background-color: black;
+    height: 120px;
+    width:100%;
+    margin: 0;
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+    position: relative;
+    color:white;
+}
+/*.footer .end{
+    color:black;
+    box-shadow: 0 25px 25px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    text-align: left;
+    width: 300px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+    */
+
+
+
+
