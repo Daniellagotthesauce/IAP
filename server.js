@@ -2,6 +2,7 @@
 const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
+const { addRecipe } = require('./recipe');
 const { newUser } = require('./registration'); // Import registerUser function
 const con = require('./connection'); // Import your MySQL connection
 
@@ -30,6 +31,8 @@ app.post('/register', (req, res) => {
         }
     });
 });
+
+
 
 // Start the server
 app.listen(PORT, () => {
