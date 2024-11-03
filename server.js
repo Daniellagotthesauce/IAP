@@ -1,17 +1,23 @@
 // server.js
+const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
 const { newUser } = require('./registration'); // Import registerUser function
 const con = require('./connection'); // Import your MySQL connection
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 // Middleware to parse form data
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static('public')); // Serve static files from "public" folder
 
+app.use((req, res, next) => {
+    console.log( "Server.js: ", req.path, req.method, req.params, req.body);
+    next();
+});
 
 // Handle the form submission
 app.post('/register', (req, res) => {
