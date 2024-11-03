@@ -4,26 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Recipe</title>
+    <link rel="stylesheet" href="../recipe.css"> <!-- Link to the CSS file -->
 </head>
 <body>
-    <h2>Add a New Recipe</h2>
-    <form action="http://localhost:4000/recipe" method="post">
-        <label for="title">Recipe Title:</label>
-        <input type="text" id="title" name="Title" required>
+    <div class="Recipe">
+        <div class="Food">
+            <img src="chipo.jpeg" alt="Recipe Image"> <!-- Optional image for visual effect -->
+        </div>
 
-        <label for="description">Description:</label>
-        <input type="text" id="description" name="Description" required>
+        <div class="recipe-form">
+            <h2>Add a New Recipe</h2>
+            <form action="http://localhost:4000/recipe" method="post">
+                <div class="input-group">
+                    <label for="title">Recipe Title:</label>
+                    <input type="text" id="title" name="Title" required>
+                </div>
 
-        <label for="ingredients">Ingredients:</label>
-        <textarea id="ingredients" name="Ingredients" required></textarea>
+                <div class="input-group">
+                    <label for="description">Description:</label>
+                    <input type="text" id="description" name="Description" required>
+                </div>
 
-        <label for="steps">Steps:</label>
-        <textarea id="steps" name="Steps" required></textarea>
+                <div class="input-group">
+                    <label for="ingredients">Ingredients:</label>
+                    <textarea id="ingredients" name="Ingredients" required></textarea>
+                </div>
 
-        <label for="userId">User ID:</label>
-        <input type="number" id="userId" name="UserID" required>
+                <div class="input-group">
+                    <label for="steps">Steps:</label>
+                    <textarea id="steps" name="Steps" required></textarea>
+                </div>
 
-        <input type="submit" value="Add Recipe">
-    </form>
+                <div class="input-group">
+                    <label for="userId">User ID:</label>
+                    <input type="number" id="userId" name="UserID" required>
+                </div>
+
+                <input type="submit" class="btn" value="Add Recipe">
+            </form>
+        </div>
+    </div>
 </body>
 </html>
