@@ -1,22 +1,35 @@
-con = require('./connection');
+const con = require('./connection');
 
-//Logging in user
-const  loginUser=(userData, callback)=>{
-    const {Email, Password} =  userData;
+const loginUser = (userData, callback) => {
+    const { Email, Password } = userData;
 
+    // Query to find the user by email
+    const query = 'SELECT * FROM users WHERE Email = ?';
+    const values = [Email];
 
-//Query to find the user by their email
-const logUser= 'SELECT * FROM users where Email = ?';
-const value =[Email];
-
-con.query(logUser,value, (err, result)=>{
-    if(err){
-        console.error("Error logging in: ", err);
+    con.query(query, values, (err, results) => {
+        if (err) {
+            console.error("Error querying database:", err);
             return callback(err, null);
-    }
-    console.log("User logged in:", result.insertId);
-        return callback(null, result.insertId);
+        }
+
+        // Check if user was found
+        if (results.length > 0) {
+            const user = results[0]; // Get the first user found
+
+            // Check if the password matches
+            if (user.Password === Password) {
+                console.log("Login successful for user:", Email);
+                return callback(null, user); // User authenticated
+            } else {
+                console.log("Incorrect password for user:", Email);
+                return callback(null, null); // Incorrect password
+            }
+        } else {
+            console.log("No user found with email:", Email);
+            return callback(null, null); // No user found
+        }
     });
 };
 
-module.exports = {loginUser};
+module.exports = { loginUser };
