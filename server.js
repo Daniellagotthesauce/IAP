@@ -44,6 +44,17 @@ app.post('/login', (req, res) => {
     });
 });
 
+app.post('/recipe', (req, res) => {
+    const recipeData = req.body;
+
+    addRecipe(recipeData, (err, result) => {
+        if (err) {
+            return res.status(500).send('Error occurred while adding the recipe');
+        }
+        res.status(200).send('Recipe added successfully');
+    });
+});
+
 
 // Start the server
 app.listen(PORT, () => {
