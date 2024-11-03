@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { addRecipe } = require('./recipe');
 const { newUser } = require('./registration'); // Import registerUser function
+const { loginUser } = require('./login');
 const con = require('./connection'); // Import your MySQL connection
 
 const app = express();
@@ -32,6 +33,16 @@ app.post('/register', (req, res) => {
     });
 });
 
+app.post('/login', (req, res) => {
+    const userData = req.body; // Capture user data from the request
+    loginUser(userData, (err, result) => {
+        if (err) {
+            res.status(500).send("Error occurred while logging in");
+        } else {
+            res.status(200).send("Login successful!");
+        }
+    });
+});
 
 
 // Start the server
