@@ -38,8 +38,10 @@ app.post('/login', (req, res) => {
     loginUser(userData, (err, result) => {
         if (err) {
             res.status(500).send("Error occurred while logging in");
-        } else {
+        } else if(result){
             res.status(200).send("Login successful!");
+        }else { // result is null (incorrect password or user not found)
+            res.status(401).send("Incorrect email or password"); // Unauthorized
         }
     });
 });
