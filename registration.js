@@ -1,11 +1,11 @@
 const con = require('./connection');
 
-//Registerning a new user
+
 const newUser= (userData, callback)=>{
- const {UserID, FullName, UserName, Password, Email, Contact, UserTypeID}= userData;
+const {UserID, FullName, UserName, Password, Email, Contact, UserTypeID}= userData;
 
 
-//Query to register the new user
+
 const regUser= 'INSERT INTO users (UserID, FullName, UserName, Password, Email, Contact, UserTypeID) VALUES (?,?,?,?,?,?,?)';
 const values =[UserID, FullName, UserName, Password, Email, Contact, UserTypeID];
 

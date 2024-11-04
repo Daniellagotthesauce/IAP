@@ -3,7 +3,7 @@ const con = require('./connection');
 const loginUser = (userData, callback) => {
     const { Email, Password } = userData;
 
-    // Query to find the user by email
+
     const query = 'SELECT * FROM users WHERE Email = ?';
     const values = [Email];
 
@@ -13,21 +13,20 @@ const loginUser = (userData, callback) => {
             return callback(err, null);
         }
 
-        // Check if user was found
+    
         if (results.length > 0) {
-            const user = results[0]; // Get the first user found
+            const user = results[0]
 
-            // Check if the password matches
             if (user.Password === Password) {
                 console.log("Login successful for user:", Email);
-                return callback(null, user); // User authenticated
+                return callback(null, user); 
             } else {
                 console.log("Incorrect password for user:", Email);
-                return callback(null, null); // Incorrect password
+                return callback(null, null); 
             }
         } else {
             console.log("No user found with email:", Email);
-            return callback(null, null); // No user found
+            return callback(null, null); 
         }
     });
 };

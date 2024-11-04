@@ -1,16 +1,16 @@
-const db = require('./connection'); // Import your MySQL connection
+const db = require('./connection'); 
 
-// Function to add a new recipe to the database
+
 const addRecipe = (recipeData, callback) => {
-    const { Title, Description, Ingredients, Steps, UserID } = recipeData;
+const { Title, Description, Ingredients, Steps, UserID } = recipeData;
 
-    const query = `
+    const newRecipe = `
         INSERT INTO Recipes (Title, Description, Ingredients, Steps, UserID) 
         VALUES (?, ?, ?, ?, ?)
     `;
     const values = [Title, Description, Ingredients, Steps, UserID];
 
-    db.query(query, values, (err, result) => {
+    db.query(newRecipe, values, (err, result) => {
         if (err) {
             console.error('Error inserting recipe:', err);
             return callback(err, null);
@@ -20,4 +20,16 @@ const addRecipe = (recipeData, callback) => {
     });
 };
 
-module.exports = { addRecipe };
+const getRecipes = (callback)=>{
+    const retrieveRecipe =`SELECT * FROM Recipes`;
+
+    db.query(retrieveRecipe, (err, results) => {
+        if(err){
+            console.log('Error fetching recipes:',err);
+            return callback(err, null);
+        }
+        callback(null,results);
+    });
+};
+
+module.exports = { addRecipe, getRecipes };
