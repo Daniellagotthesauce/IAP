@@ -1,10 +1,10 @@
 const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
-const { addRecipe, getRecipes } = require('./recipe');
+const { addRecipe, getRecipes } = require('./js_backend_file/recipe');
 const { newUser } = require('./registration');
 const { loginUser } = require('./login');
-const con = require('./connection'); 
+const con = require('./js_backend_file/connection'); 
 
 const app = express();
 const PORT = process.env.PORT || 4000;
