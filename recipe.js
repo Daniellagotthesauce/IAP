@@ -28,6 +28,7 @@ const getRecipes = (callback)=>{
             console.log('Error fetching recipes:',err);
             return callback(err, null);
         }
+        console.log(results);
         callback(null,results);
     });
 };

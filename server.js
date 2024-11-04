@@ -56,11 +56,14 @@ app.post('/add-recipe', (req, res) => {
     });
 });
 
-app.get('/get-recipe',(req, res)=>{
+app.get('/get-recipe',(req, res)=>{ 
+    console.log("This is the get recipe function");
     getRecipes((err, recipes)=>{
         if (err) {
             return res.status(500).send('Error fetching recipes');
     }
+    console.log(recipes);
+    res.json(recipes);
   });
 });
 
