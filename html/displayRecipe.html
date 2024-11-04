@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe List</title>
+    <link rel="stylesheet" href="../displayRecipes.css">
+</head>
+<body>
+    <h2>Recipes</h2>
+    <table id="recipeTable">
+        <thead>
+            <tr>
+                <th>Recipe ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Ingredients</th>
+                <th>Steps</th>
+                <th>User ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Recipe rows will be populated here -->
+        </tbody>
+    </table>
+
+    <script>
+        async function fetchRecipes() {
+            try {
+                const response = await fetch('http://localhost:4000/get-recipe');
+                const data = await response.json();
+
+                const recipeTableBody = document.getElementById('recipeTable').querySelector('tbody');
+                recipeTableBody.innerHTML = ''; // Clear existing rows
+
+                data.forEach(recipe => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${recipe.RecipeID}</td>
+                        <td>${recipe.Title}</td>
+                        <td>${recipe.Description}</td>
+                        <td>${recipe.Ingredients}</td>
+                        <td>${recipe.Steps}</td>
+                        <td>${recipe.UserID}</td>
+                    `;
+                    recipeTableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error fetching recipes:', error);
+            }
+        }
+
+        // Fetch recipes when the page loads
+        document.addEventListener('DOMContentLoaded', fetchRecipes);
+    </script>
+</body>
+</html>

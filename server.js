@@ -45,7 +45,7 @@ app.post('/login', (req, res) => {
     });
 });
 
-app.post('/recipe', (req, res) => {
+app.post('/add-recipe', (req, res) => {
     const recipeData = req.body;
 
     addRecipe(recipeData, (err, result) => {
@@ -56,8 +56,8 @@ app.post('/recipe', (req, res) => {
     });
 });
 
-app.get('/recipe',(res)=>{
-    getRecipe((err, recipes)=>{
+app.get('/get-recipe',(req, res)=>{
+    getRecipes((err, recipes)=>{
         if (err) {
             return res.status(500).send('Error fetching recipes');
     }
