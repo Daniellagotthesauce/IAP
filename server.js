@@ -2,8 +2,8 @@ const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
 const { addRecipe, getRecipes } = require('./js_backend_file/recipe');
-const { newUser } = require('./registration');
-const { loginUser } = require('./login');
+const { newUser } = require('./js_backend_file/registration');
+const { loginUser } = require('./js_backend_file/login');
 const con = require('./js_backend_file/connection'); 
 
 const app = express();

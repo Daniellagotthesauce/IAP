@@ -1,4 +1,4 @@
-const con = require('./js_backend_file/connection');
+const con = require('./connection');
 
 
 const newUser= (userData, callback)=>{
