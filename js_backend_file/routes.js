@@ -16,6 +16,18 @@ function recipesRoot(req,res){
             }
             res.end();
         });
+    } else if (req.url === "/get-recipe" && req.method === "GET") {
+
+        con.query('SELECT * FROM recipes', (err, results) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'text/plain' });
+                res.write("Error fetching recipes from database");
+                res.end();
+                return;
+            }
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(results));
+        });
     } else {
         res.writeHead(404, { 'Content-Type': 'text/plain' });
         res.write("Page not found");
