@@ -20,7 +20,7 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Recipe rows will be populated here -->
+            
         </tbody>
     </table>
 
@@ -32,7 +32,7 @@
 
                 console.log("Data from the database is:" + data);
                 const recipeTableBody = document.getElementById('recipeTable').querySelector('tbody');
-                recipeTableBody.innerHTML = ''; // Clear existing rows
+                recipeTableBody.innerHTML = ''; 
 
                 data.forEach(recipe => {
                     const row = document.createElement('tr');
@@ -51,7 +51,7 @@
             }
         }
 
-        // Fetch recipes when the page loads
+        
         document.addEventListener('DOMContentLoaded', fetchRecipes);
     </script>
 </body>

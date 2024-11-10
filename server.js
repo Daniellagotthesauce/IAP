@@ -5,6 +5,7 @@ const { addRecipe, getRecipes } = require('./js_backend_file/recipe');
 const { newUser } = require('./js_backend_file/registration');
 const { loginUser } = require('./js_backend_file/login');
 const con = require('./js_backend_file/connection'); 
+const routes=require('./js_backend_file/routes');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -66,6 +67,8 @@ app.get('/get-recipe',(req, res)=>{
     res.json(recipes);
   });
 });
+
+app.get('/html/displayRecipe', routes.recipesRoot);
 
 
 

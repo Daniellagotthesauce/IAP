@@ -1,9 +1,12 @@
-/*const con = require('./connection');
+const con = require('./connection');
 const fs=require('fs');
+const path = require('path'); 
 
 function recipesRoot(req,res){
     if(req.url === "/html/displayRecipe"){
-        fs.readFile('./html/displayRecipe.html', (err, data) => { // Serve HTML file
+        const filePath = path.join(__dirname, '/../html/displayRecipe.html');
+
+        fs.readFile(filePath, (err, data) => {
             if (err) {
                 res.writeHead(404, { 'Content-Type': 'text/plain' });
                 res.write("404 Not Found");
@@ -22,4 +25,3 @@ function recipesRoot(req,res){
 }
 
 module.exports.recipesRoot=recipesRoot;
-*/
