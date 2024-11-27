@@ -17,10 +17,7 @@ const PORT = process.env.PORT || 4000;
 
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors({
-    origin: 'http://localhost:4000',
-    credentials: true,              
-}));
+app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
@@ -65,8 +62,8 @@ app.post('/login', (req, res) => {
                 UserTypeID: result.user.UserTypeID,
             };
 
-            // console.log("Redirecting to recipeweb.html...");
-            // res.redirect('/recipeweb'); // Redirect to the recipeweb page
+            console.log("Redirecting to recipeweb.html...");
+            res.redirect('/recipeweb'); // Redirect to the recipeweb page
         } else {
             res.status(401).send("Incorrect email or password");
         }
