@@ -10,7 +10,7 @@ const routes = require('./js_backend_file/routes');
 const jwt = require('jsonwebtoken');
 const session = require('express-session');
 const path = require('path');
-app.use(express.static(path.join(__dirname, 'RECIPE IAP')));
+
 
 
 const { uniqueKey } = process.env.uniqueKey;
@@ -29,6 +29,7 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use(express.static(path.join(__dirname, 'RECIPE IAP')));
 app.use(express.json());
 
 app.use(
@@ -208,7 +209,7 @@ app.get('/session', (req, res) => {
     }
 });
 
-const path = require('path');
+//const path = require('path');
 
 app.get('/recipeweb', (req, res) => {
     if (req.session.user) {
