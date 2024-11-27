@@ -8,6 +8,7 @@ const { loginUser } = require('./js_backend_file/login');
 const con = require('./js_backend_file/connection'); 
 const routes=require('./js_backend_file/routes');
 const jwt= require('jsonwebtoken');
+const session = require('express-session');
 
 const { uniqueKey } = process.env.uniqueKey;
 
@@ -27,6 +28,13 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET || 'default_secret',
+        resave: false,
+        saveUninitialized: false,
+    })
+);
 
 app.post('/register', (req, res) => {
     const userData = req.body; 
@@ -40,21 +48,26 @@ app.post('/register', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-    const userData = req.body; 
+    const userData = req.body;
+
     loginUser(userData, (err, result) => {
         if (err) {
             res.status(500).send("Error occurred while logging in");
-        } else if(result && result.accessToken){
+        } else if (result && result.accessToken) {
+            req.session.user = {
+                UserID: result.user.UserID,
+                FullName: result.user.FullName,
+                UserTypeID: result.user.UserTypeID,
+            };
 
             res.status(200).json({
-                message:"Login successful!",
-                accessToken: result.accessToken
+                message: "Login successful!",
+                accessToken: result.accessToken,
             });
-        }else { 
+        } else {
             res.status(401).send("Incorrect email or password");
         }
     });
-  
 });
 
 app.post('/add-recipe', (req, res) => {
@@ -163,7 +176,6 @@ app.get('/user/:email',verification,(req,res)=>{
 });
 
 
-
 app.get('/users/:gender',verification,(req,res)=>{
 const {gender} = req.params;
 const genderqr= 'SELECT FullName FROM users WHERE Gender=?';
@@ -183,6 +195,14 @@ con.query(genderqr,values,(err, results)=>{
 });
 
 app.get('/html/displayRecipe', routes.recipesRoot);
+
+app.get('/session', (req, res) => {
+    if (req.session.user) {
+        res.status(200).json(req.session.user);
+    } else {
+        res.status(401).send("No active session");
+    }
+});
 
 
 
