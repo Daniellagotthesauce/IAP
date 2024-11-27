@@ -35,15 +35,16 @@ app.use(express.json());
 app.use(
     session({
         secret: process.env.SESSION_SECRET || 'default_secret',
-        resave: false, 
+        resave: false,
         saveUninitialized: false,
         cookie: {
-            httpOnly: true, 
+            httpOnly: true,
             secure: false,
             sameSite: 'lax', 
         },
     })
 );
+
 
 app.post('/register', (req, res) => {
     const userData = req.body;
@@ -206,6 +207,7 @@ app.get('/users/:gender', verification, (req, res) => {
 app.get('/html/displayRecipe', routes.recipesRoot);
 
 app.get('/session', (req, res) => {
+    console.log("Session Cookie:", req.headers.cookie);
     console.log("Session Data:", req.session);
     if (req.session.user) {
         res.status(200).json(req.session.user);
@@ -213,6 +215,7 @@ app.get('/session', (req, res) => {
         res.status(401).send("No active session");
     }
 });
+
 
 
 
