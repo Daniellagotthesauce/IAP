@@ -9,6 +9,9 @@ const con = require('./js_backend_file/connection');
 const routes = require('./js_backend_file/routes');
 const jwt = require('jsonwebtoken');
 const session = require('express-session');
+const path = require('path');
+app.use(express.static(path.join(__dirname, 'RECIPE IAP')));
+
 
 const { uniqueKey } = process.env.uniqueKey;
 
