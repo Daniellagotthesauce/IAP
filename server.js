@@ -29,7 +29,6 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(express.static(path.join(__dirname)));
 app.use(express.json());
 
 app.use(
@@ -65,9 +64,7 @@ app.post('/login', (req, res) => {
                 FullName: result.user.FullName,
                 UserTypeID: result.user.UserTypeID,
             };
-
-            console.log("Redirecting to recipeweb.html...");
-            res.redirect('/recipeweb'); // Redirect to the recipeweb page
+            res.status(200).json({ message: "Login successful", redirectUrl: "/recipeweb.html" });
         } else {
             res.status(401).send("Incorrect email or password");
         }
@@ -209,15 +206,7 @@ app.get('/session', (req, res) => {
     }
 });
 
-//const path = require('path');
 
-app.get('/recipeweb', (req, res) => {
-    if (req.session.user) {
-        res.sendFile(path.join(__dirname, 'html/recipeweb.html'));
-    } else {
-        res.status(401).send("Unauthorized. Please log in.");
-    }
-});
 
 
 

@@ -16,17 +16,15 @@
 
         <div class="login-form">
             <h2>Login</h2>
-            <form action="http://localhost:4000/login" method="post">
+            <form id="loginForm">
                 <div class="input-group">
-
                     <label for="email">Email:</label>
-                    <input type="email" id="email" name="Email" placeholder="username@mail.com">
-
+                    <input type="email" id="email" name="Email" placeholder="username@mail.com" required>
                 </div>
 
                 <div class="input-group">
                     <label for="password">Password:</label>
-                    <input type="password" id="password" name="Password" placeholder="Password">
+                    <input type="password" id="password" name="Password" placeholder="Password" required>
                 </div>
 
                 <div class="input-group">
@@ -42,7 +40,41 @@
         </div>
     </div>
 
+    <script>
+        const loginForm = document.getElementById('loginForm');
 
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(loginForm);
+            const data = {
+                Email: formData.get('Email'),
+                Password: formData.get('Password'),
+            };
+
+            try {
+                const response = await fetch('http://localhost:4000/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.redirectUrl) {
+                        window.location.href = result.redirectUrl;
+                    }
+                } else if (response.status === 401) {
+                    alert('Incorrect email or password. Please try again.');
+                } else {
+                    alert('An error occurred. Please try again later.');
+                }
+            } catch (error) {
+                console.error('Error during login:', error);
+                alert('Unable to log in. Please try again later.');
+            }
+        });
+    </script>
 </body>
 
 </html>
