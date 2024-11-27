@@ -205,6 +205,17 @@ app.get('/session', (req, res) => {
     }
 });
 
+const path = require('path');
+
+app.get('/recipeweb', (req, res) => {
+    if (req.session.user) {
+        res.sendFile(path.join(__dirname, 'html/recipeweb.html'));
+    } else {
+        res.status(401).send("Unauthorized. Please log in.");
+    }
+});
+
+
 
 
 app.listen(PORT, () => {
