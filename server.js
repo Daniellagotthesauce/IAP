@@ -18,12 +18,14 @@ const PORT = process.env.PORT || 4000;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(
     cors({
-        origin: '*',
+        origin: 'http://127.0.0.1:5500',
         credentials: true, 
     })
 );
+app.use(express.static(path.join(__dirname)));
 
 app.use(
     session({
@@ -58,7 +60,9 @@ app.post('/login', (req, res) => {
                 UserTypeID: result.user.UserTypeID,
             };
             console.log("Session Set:", req.session.user); // Debug log
-            res.status(200).json({ message: "Login successful", redirectUrl: "C:/Users/danie/OneDrive/Desktop/IAP WEEKLY PROJECTS/RECIPE IAP/html/recipeweb.html" });
+            res.status(200).json({ 
+                message: "Login successful", 
+                redirectUrl: "/html/recipeweb.html" });
         } else {
             res.status(401).send("Incorrect email or password");
         }
