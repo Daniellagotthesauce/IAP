@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration</title>
     <link rel="stylesheet" href="../css/Login.css">
-    
 </head>
 <body>
     <div class="Register">
@@ -18,29 +17,34 @@
             <form action="http://localhost:4000/register" method="post">
                 <div class="input-group">
                     <label>Full Name</label>
-                    <input type="text" id="fname" name="FullName" placeholder="John Doe">
+                    <input type="text" id="fname" name="FullName" placeholder="John Doe" required>
 
                     <label for="uname">UserName</label>
-                    <input type="text" id="uname" name="UserName">
+                    <input type="text" id="uname" name="UserName" required>
 
                     <label for="mail">Email</label>
-                    <input type="email" id="mail" name="Email" placeholder="username@mail.com">
+                    <input type="email" id="mail" name="Email" placeholder="username@mail.com" required>
 
                     <label for="password">Password</label>
-                    <input type="password" id="password" name="Password">
+                    <input type="password" id="password" name="Password" required>
 
                     <label for="confirm password">Confirm Password</label>
-                    <input type="password" id="confirm password" name="pass_confirmation">
+                    <input type="password" id="confirm password" name="pass_confirmation" required>
 
                     <label for="contact">Contact</label>
-                    <input type="tel" id="contact" name="Contact">
+                    <input type="tel" id="contact" name="Contact" required>
 
                     <label for="gender">Gender</label>
-                    <select id="gender"name='Gender' required>
+                    <select id="gender" name="Gender" required>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                     </select>
 
+                    <label for="userCategory">User Category</label>
+                    <select id="userCategory" name="UserTypeID" required>
+                        <option value="1">Normal User</option>
+                        <option value="0">Recipe Owner</option>
+                    </select>
 
                     <input type="submit" value="Register">
                 </div>
@@ -49,4 +53,3 @@
     </div>
 </body>
 </html>
-

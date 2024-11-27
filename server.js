@@ -79,6 +79,7 @@ app.get('/get-recipe',(req, res)=>{
   });
 });
 
+
 app.get('/get-recipe/:RecipeID',(req,res) =>{
    const RecipeID= req.params.RecipeID;
    console.log(`Fetching recipe with ID: ${RecipeID}`);
@@ -95,6 +96,7 @@ if(!recipe){
     res.json(recipe);
    });
 });
+
 
 const getRecipeById = (RecipeID,callback) =>{
     const retrieve ='SELECT * FROM recipes WHERE RecipeID = ?';
