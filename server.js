@@ -16,21 +16,14 @@ const PORT = process.env.PORT || 4000;
 
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(express.json());
 app.use(
     cors({
-        origin: '*', 
-        credentials: true,
+        origin: '*',
+        credentials: true, 
     })
 );
-app.use(bodyParser.json());
-app.use(express.static('public'));
-
-app.use((req, res, next) => {
-    console.log("Server.js: ", req.path, req.method, req.params, req.body);
-    next();
-});
-
-app.use(express.json());
 
 app.use(
     session({
@@ -38,23 +31,17 @@ app.use(
         resave: false,
         saveUninitialized: false,
         cookie: {
-            httpOnly: true,
-            secure: false,
-            sameSite: 'lax', 
+            httpOnly: true, 
+            secure: false, 
+            sameSite: 'lax',
         },
     })
 );
 
-
-app.post('/register', (req, res) => {
-    const userData = req.body;
-    newUser(userData, (err, result) => {
-        if (err) {
-            res.status(500).send("Error occurred while registering");
-        } else {
-            res.status(200).send("Registration successful!");
-        }
-    });
+app.use((req, res, next) => {
+    console.log("Server.js: ", req.path, req.method, req.headers, req.body);
+    console.log("Session Data:", req.session);
+    next();
 });
 
 app.post('/login', (req, res) => {
@@ -78,6 +65,28 @@ app.post('/login', (req, res) => {
     });
 });
 
+
+app.get('/session', (req, res) => {
+    console.log("Session Cookie:", req.headers.cookie);
+    console.log("Session Data:", req.session);
+    if (req.session.user) {
+        res.status(200).json(req.session.user);
+    } else {
+        res.status(401).send("No active session");
+    }
+});
+
+
+app.post('/register', (req, res) => {
+    const userData = req.body;
+    newUser(userData, (err, result) => {
+        if (err) {
+            res.status(500).send("Error occurred while registering");
+        } else {
+            res.status(200).send("Registration successful!");
+        }
+    });
+});
 
 
 app.post('/add-recipe', (req, res) => {
@@ -205,18 +214,6 @@ app.get('/users/:gender', verification, (req, res) => {
 });
 
 app.get('/html/displayRecipe', routes.recipesRoot);
-
-app.get('/session', (req, res) => {
-    console.log("Session Cookie:", req.headers.cookie);
-    console.log("Session Data:", req.session);
-    if (req.session.user) {
-        res.status(200).json(req.session.user);
-    } else {
-        res.status(401).send("No active session");
-    }
-});
-
-
 
 
 app.listen(PORT, () => {
