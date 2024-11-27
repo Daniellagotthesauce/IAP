@@ -40,6 +40,7 @@ app.use(
         cookie: {
             httpOnly: true, 
             secure: false,
+            sameSite: 'lax', 
         },
     })
 );
@@ -57,7 +58,6 @@ app.post('/register', (req, res) => {
 
 app.post('/login', (req, res) => {
     const userData = req.body;
-
     loginUser(userData, (err, result) => {
         if (err) {
             return res.status(500).send("Error occurred while logging in");
@@ -69,12 +69,14 @@ app.post('/login', (req, res) => {
                 FullName: result.user.FullName,
                 UserTypeID: result.user.UserTypeID,
             };
+            console.log("Session Set:", req.session.user); // Debug log
             res.status(200).json({ message: "Login successful", redirectUrl: "C:/Users/danie/OneDrive/Desktop/IAP WEEKLY PROJECTS/RECIPE IAP/html/recipeweb.html" });
         } else {
             res.status(401).send("Incorrect email or password");
         }
     });
 });
+
 
 
 app.post('/add-recipe', (req, res) => {
@@ -211,9 +213,6 @@ app.get('/session', (req, res) => {
         res.status(401).send("No active session");
     }
 });
-
-
-
 
 
 
