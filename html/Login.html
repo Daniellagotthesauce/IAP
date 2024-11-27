@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="../css/Registration.css">
 </head>
+
 <body>
     <div class="Login">
         <div class="Food">
@@ -18,7 +20,7 @@
                 <div class="input-group">
 
                     <label for="email">Email:</label>
-                    <input type="email" id="email" name= "Email" placeholder="username@mail.com">
+                    <input type="email" id="email" name="Email" placeholder="username@mail.com">
 
                 </div>
 
@@ -32,12 +34,44 @@
                 </div>
 
                 <button type="submit" class="btn">Sign In</button>
-               
+
                 <div class="register-link">
                     Don't have an account yet? <a href="Registration.html">Register.</a>
                 </div>
             </form>
         </div>
     </div>
+    <script>
+        document.querySelector("form").onsubmit = async function (event) {
+            event.preventDefault();
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            try {
+                const response = await fetch("http://localhost:4000/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ Email: email, Password: password }),
+                    credentials: "include",
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log("Login successful:", data);
+                    window.location.href = "recipeweb.html";
+                } else {
+                    alert("Login failed: Incorrect email or password");
+                }
+            } catch (error) {
+                console.error("Error logging in:", error);
+                alert("An error occurred while logging in. Please try again.");
+            }
+        };
+    </script>
+
 </body>
+
 </html>
