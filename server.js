@@ -1,3 +1,4 @@
+require('dotenv').config();
 const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -7,7 +8,8 @@ const { loginUser } = require('./js_backend_file/login');
 const con = require('./js_backend_file/connection'); 
 const routes=require('./js_backend_file/routes');
 const jwt= require('jsonwebtoken');
-const { uniqueKey } = process.env;
+
+const { uniqueKey } = process.env.uniqueKey;
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -22,6 +24,8 @@ app.use((req, res, next) => {
     console.log( "Server.js: ", req.path, req.method, req.params, req.body);
     next();
 });
+
+app.use(express.json());
 
 
 app.post('/register', (req, res) => {
@@ -40,16 +44,17 @@ app.post('/login', (req, res) => {
     loginUser(userData, (err, result) => {
         if (err) {
             res.status(500).send("Error occurred while logging in");
-        } else if(result && result.userToken){
+        } else if(result && result.accessToken){
+
             res.status(200).json({
                 message:"Login successful!",
-                userToken: result.userToken,
-                user: result.user
+                accessToken: result.accessToken
             });
         }else { 
             res.status(401).send("Incorrect email or password");
         }
     });
+  
 });
 
 app.post('/add-recipe', (req, res) => {
@@ -74,23 +79,58 @@ app.get('/get-recipe',(req, res)=>{
   });
 });
 
+app.get('/get-recipe/:RecipeID',(req,res) =>{
+   const RecipeID= req.params.RecipeID;
+   console.log(`Fetching recipe with ID: ${RecipeID}`);
+
+   getRecipeById(RecipeID, (err, recipe)=>{
+if(err){
+    console.error('Error fetching recipe:', err);
+    return res.status(500).send("Error fetching recipe");
+}
+if(!recipe){
+    return res.status(404).send('Recipe not found');
+}
+    console.log('Recipe fetched:', recipe);
+    res.json(recipe);
+   });
+});
+
+const getRecipeById = (RecipeID,callback) =>{
+    const retrieve ='SELECT * FROM recipes WHERE RecipeID = ?';
+    con.query(retrieve,[RecipeID], (err,results)=>{
+    if(err){
+        return callback(err, null);
+    }
+    if(results.length===0){
+        return callback(null,null);
+    }
+    callback(null, results[0]);
+    });
+};
+
+
+
 const verification= (req,res,next)=>{
-    const token = req.header('Authorization')?.split(' ')[1]; 
+    const authenticate = req.headers['authorization'];
+    const token = authenticate && authenticate.split(' ')[1];
 
     if (!token) {
         return res.status(401).send('Access denied. No token provided.');
     }
 
-    jwt.verify(token, uniqueKey, (err,decoded)=>{
+    jwt.verify(token, process.env.uniqueKey, (err,decoded)=>{
         if(err){
             return res.status(403).send('Invalid token.');
         }
         req.user = decoded;
         next();
     });
+    
 };
 
-app.get('/users', verification,(req,res)=>{
+
+app.get('/users',verification,(req,res)=>{
     const query ='SELECT FullName FROM users';
 
     con.query(query, (err, results)=>{
@@ -103,7 +143,7 @@ app.get('/users', verification,(req,res)=>{
     });
 });
 
-app.get('/user/:email', verification,(req,res)=>{
+app.get('/user/:email',verification,(req,res)=>{
     const {email}= req.params;
     const emailqr= 'SELECT * FROM users WHERE Email= ?';
     const values= [email];
@@ -120,7 +160,9 @@ app.get('/user/:email', verification,(req,res)=>{
     });
 });
 
-app.get('/users/:gender', verification,(req,res)=>{
+
+
+app.get('/users/:gender',verification,(req,res)=>{
 const {gender} = req.params;
 const genderqr= 'SELECT FullName FROM users WHERE Gender=?';
 const values=[gender];
@@ -130,7 +172,8 @@ con.query(genderqr,values,(err, results)=>{
         return res.status(500).send("Error fetching users based on gender.");
     }
     if (results.length > 0) {
-        res.json(results); 
+        const userNames = results.map(user => user.FullName);
+        res.json(userNames); 
     } else {
         res.status(404).send("No users found for this gender.");
     }

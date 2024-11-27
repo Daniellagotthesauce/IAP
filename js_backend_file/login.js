@@ -7,14 +7,8 @@ const loginUser = (userData, callback) => {
     const { Email, Password } = userData;
 
 const generateToken=(userID, email)=>{
-    const userToken= jwt.sign(
-        {
-            UserID: userID, 
-            Email:email
-        },
-        uniqueKey, {expiresIn: '1h'}
-    );
-    return userToken;
+    const accessToken= jwt.sign({ UserID: userID, Email:email},uniqueKey);
+    return accessToken;
 };
 
 
@@ -34,9 +28,9 @@ const generateToken=(userID, email)=>{
             if (user.Password === Password) {
                 console.log("Login successful for user:", Email);
 
-                //Generating and returning the token after successful login
-                const userToken= generateToken(user.UserID, user.Email);
-                return callback(null,{user, userToken});
+                
+                const accessToken= generateToken(user.UserID, user.Email);
+                return callback(null,{user, accessToken});
 
             } else {
                 console.log("Incorrect password for user:", Email);

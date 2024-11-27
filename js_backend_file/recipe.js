@@ -2,13 +2,13 @@ const db = require('./connection');
 
 
 const addRecipe = (recipeData, callback) => {
-const { Title, Description, Ingredients, Steps, UserID } = recipeData;
+const { Title,  Description, Ingredients, Steps, UserID, Category } = recipeData;
 
     const newRecipe = `
-        INSERT INTO Recipes (Title, Description, Ingredients, Steps, UserID) 
-        VALUES (?, ?, ?, ?, ?)
+        INSERT INTO Recipes (Title, Description, Ingredients, Steps, UserID, Category) 
+        VALUES (?, ?, ?, ?, ?, ?)
     `;
-    const values = [Title, Description, Ingredients, Steps, UserID];
+    const values = [Title, Description, Ingredients, Steps, UserID, Category];
 
     db.query(newRecipe, values, (err, result) => {
         if (err) {

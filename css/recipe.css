@@ -70,6 +70,17 @@ body, html {
     height: 80px; 
 }
 
+.input-group select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #333;
+    color: #fff;
+    resize: none;
+}
+
+
 .btn {
     background-color: #f96332; 
     color: #fff;
