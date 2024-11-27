@@ -1,3 +1,8 @@
+const con = require('./connection');
+const jwt=require('jsonwebtoken');
+require('dotenv').config();
+const uniqueKey= process.env.uniqueKey;
+
 const loginUser = (userData, callback) => {
     const { Email, Password } = userData;
 
