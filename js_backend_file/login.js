@@ -29,6 +29,8 @@ const loginUser = (userData, callback) => {
                         UserTypeID: user.UserTypeID,
                     },
                     accessToken,
+
+                    
                 });
             } else {
                 console.log("Incorrect password for user:", Email);
