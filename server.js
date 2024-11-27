@@ -62,12 +62,14 @@ app.post('/login', (req, res) => {
             console.log("Session Set:", req.session.user); // Debug log
             res.status(200).json({ 
                 message: "Login successful", 
-                redirectUrl: "/html/recipeweb.html" });
+                redirectUrl: "http://127.0.0.1:5500/html/recipeweb.html"
+            });
         } else {
             res.status(401).send("Incorrect email or password");
         }
     });
 });
+
 
 
 app.get('/session', (req, res) => {
