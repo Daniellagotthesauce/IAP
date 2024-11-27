@@ -64,7 +64,7 @@ app.post('/login', (req, res) => {
                 FullName: result.user.FullName,
                 UserTypeID: result.user.UserTypeID,
             };
-            res.status(200).json({ message: "Login successful", redirectUrl: "/recipeweb.html" });
+            res.status(200).json({ message: "Login successful", redirectUrl: "C:/Users/danie/OneDrive/Desktop/IAP WEEKLY PROJECTS/RECIPE IAP/html/recipeweb.html" });
         } else {
             res.status(401).send("Incorrect email or password");
         }
