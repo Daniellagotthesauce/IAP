@@ -10,17 +10,18 @@ const routes = require('./js_backend_file/routes');
 const jwt = require('jsonwebtoken');
 const session = require('express-session');
 const path = require('path');
-
-
-
 const { uniqueKey } = process.env.uniqueKey;
-
 const app = express();
 const PORT = process.env.PORT || 4000;
 
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
+app.use(
+    cors({
+        origin: '*', 
+        credentials: true,
+    })
+);
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
@@ -34,8 +35,12 @@ app.use(express.json());
 app.use(
     session({
         secret: process.env.SESSION_SECRET || 'default_secret',
-        resave: false,
+        resave: false, 
         saveUninitialized: false,
+        cookie: {
+            httpOnly: true, 
+            secure: false,
+        },
     })
 );
 
@@ -199,6 +204,7 @@ app.get('/users/:gender', verification, (req, res) => {
 app.get('/html/displayRecipe', routes.recipesRoot);
 
 app.get('/session', (req, res) => {
+    console.log("Session Data:", req.session);
     if (req.session.user) {
         res.status(200).json(req.session.user);
     } else {
