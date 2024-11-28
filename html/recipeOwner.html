@@ -17,8 +17,8 @@
         <div class="Links">
             <a href="#">Home</a>
             <a href="allRecipes.html">Recipes</a>
-            <a href="addRecipes.html">Add recipe</a>
-            <a href="manageRecipes.html">Manage recipes</a>
+            <a id="addRecipeLink" href="addRecipes.html">Add recipe</a>
+            <a id="manageRecipeLink" href="manageRecipes.html">Manage recipes</a>
             <a href="#">About</a>
             <a href="#">Contacts</a>
             <a href="Login.html">Login</a>
@@ -73,6 +73,13 @@
             </div>
         </div>
     </div>
+
+    <div class="token-container">
+        <p>Your API Token:</p>
+        <div id="tokenDisplay" class="token-display"></div>
+        <button id="copyTokenBtn" class="copy-button">Copy Token</button>
+    </div>
+
 </body>
 
 <footer>
@@ -87,5 +94,59 @@
         <h3>Location</h3>
     </div>
 </footer>
+
+<script>
+
+// Get the UserID from localStorage
+const userID = localStorage.getItem('UserID');
+
+// Check if the UserID is available
+if (userID) {
+    // Dynamically update the links with the userID
+    document.getElementById('addRecipeLink').href = `addRecipes.html?userID=${userID}`;
+    document.getElementById('manageRecipeLink').href = `manageRecipes.html?userID=${userID}`;
+} else {
+    // If UserID is not found in localStorage, redirect to login page
+    alert('You are not logged in. Please log in again.');
+    window.location.href = 'login.html';
+}
+
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+    const token = localStorage.getItem('accessToken'); // Get the token from localStorage
+    const tokenDisplay = document.getElementById('tokenDisplay');
+
+    if (token && tokenDisplay) {
+        tokenDisplay.textContent = `Your API Token: ${token}`; // Display the token
+    }
+
+    // OPTIONAL: Clean up the URL by removing the token query parameter
+    const url = new URL(window.location);
+    url.searchParams.delete('token');
+    window.history.replaceState({}, document.title, url.toString());
+});
+document.addEventListener('DOMContentLoaded', () => {
+    const token = localStorage.getItem('accessToken'); // Get token from localStorage
+    const tokenDisplay = document.querySelector('.token-display'); // Correctly target the token display box
+    const copyButton = document.getElementById('copyTokenBtn');
+
+    if (token && tokenDisplay) {
+        tokenDisplay.textContent = token; // Insert the token into the correct box
+    }
+
+    if (copyButton) {
+        copyButton.addEventListener('click', () => {
+            if (token) {
+                navigator.clipboard.writeText(token).then(() => {
+                    alert('Token copied to clipboard!');
+                }).catch(err => {
+                    console.error('Failed to copy token:', err);
+                });
+            }
+        });
+    }
+});
+</script>
 
 </html>
