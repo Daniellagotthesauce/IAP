@@ -95,3 +95,44 @@ header a.active {
 .recipe-actions .delete-btn:hover {
     background-color: #cc0000;
 }
+.token-container {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 600px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.token-display {
+    display: block; /* Ensure token stays inside the box */
+    margin: 10px 0;
+    padding: 10px;
+    font-size: 14px;
+    font-family: monospace;
+    background-color: #e8f5e9;
+    border: 1px solid #4caf50;
+    border-radius: 5px;
+    color: #2e7d32;
+    word-wrap: break-word; /* Ensure token doesn't overflow */
+    word-break: break-all;
+    overflow-wrap: anywhere; /* Wrap long text to prevent overflow */
+}
+
+.copy-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #4caf50;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.copy-button:hover {
+    background-color: #45a049;
+}

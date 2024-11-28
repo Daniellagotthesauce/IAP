@@ -26,6 +26,16 @@ app.use((req, res, next) => {
     next();
 });
 
+
+
+app.use(session({
+    secret: 'daniella',   // Replace with a more secure secret
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }   // Set to true if using HTTPS
+}));
+
+
 app.post('/login', (req, res) => {
     const userData = req.body;
     loginUser(userData, (err, result) => {
@@ -34,6 +44,9 @@ app.post('/login', (req, res) => {
         }
 
         if (result && result.accessToken) {
+
+            req.session.token = result.accessToken;
+
             res.status(200).json({
                 message: "Login successful",
                 accessToken: result.accessToken,
