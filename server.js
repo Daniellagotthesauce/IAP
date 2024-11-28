@@ -19,30 +19,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(
-    cors({
-        origin: 'http://127.0.0.1:5500',
-        credentials: true, 
-    })
-);
-app.use(express.static(path.join(__dirname)));
-
-app.use(
-    session({
-        secret: process.env.SESSION_SECRET || 'default_secret',
-        resave: false,
-        saveUninitialized: false,
-        cookie: {
-            httpOnly: true, 
-            secure: false, 
-            sameSite: 'lax',
-        },
-    })
-);
+app.use(cors());
 
 app.use((req, res, next) => {
     console.log("Server.js: ", req.path, req.method, req.headers, req.body);
-    console.log("Session Data:", req.session);
     next();
 });
 
@@ -54,32 +34,16 @@ app.post('/login', (req, res) => {
         }
 
         if (result && result.accessToken) {
-            req.session.user = {
-                UserID: result.user.UserID,
-                FullName: result.user.FullName,
-                UserTypeID: result.user.UserTypeID,
-            };
-            console.log("Session Set:", req.session.user); // Debug log
             res.status(200).json({ 
                 message: "Login successful", 
-                redirectUrl: "http://127.0.0.1:5500/html/recipeweb.html"
+                accessToken: result.accessToken,
+                UserTypeID: result.user.UserTypeID,
+                // redirectUrl: "http://127.0.0.1:5500/html/recipeweb.html"
             });
         } else {
             res.status(401).send("Incorrect email or password");
         }
     });
-});
-
-
-
-app.get('/session', (req, res) => {
-    console.log("Session Cookie:", req.headers.cookie);
-    console.log("Session Data:", req.session);
-    if (req.session.user) {
-        res.status(200).json(req.session.user);
-    } else {
-        res.status(401).send("No active session");
-    }
 });
 
 
