@@ -44,7 +44,7 @@
                 }
     
                 const recipes = await response.json();
-                const recipeContainer = document.getElementById('recipeContainer');
+                const recipeContainer = document.getElementById('manageRecipeContainer'); // Updated to match the correct id
                 recipeContainer.innerHTML = ''; // Clear loading message
     
                 if (recipes.length === 0) {
