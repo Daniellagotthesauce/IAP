@@ -38,7 +38,7 @@ app.post('/login', (req, res) => {
                 message: "Login successful", 
                 accessToken: result.accessToken,
                 UserTypeID: result.user.UserTypeID,
-                // redirectUrl: "http://127.0.0.1:5500/html/recipeweb.html"
+                UserID: result.user.UserID,
             });
         } else {
             res.status(401).send("Incorrect email or password");
@@ -119,6 +119,23 @@ const getRecipeById = (RecipeID, callback) => {
     });
 };
 
+app.get('/get-user-recipes', (req, res) => {
+    const userID = req.query.userID;
+
+    if (!userID) {
+        return res.status(400).send('UserID is required.');
+    }
+
+    const query = 'SELECT * FROM recipes WHERE UserID = ?'; // Query to fetch recipes for the user
+    con.query(query, [userID], (err, results) => {
+        if (err) {
+            console.error('Error fetching user recipes:', err);
+            return res.status(500).send('Error fetching user recipes.');
+        }
+
+        res.json(results); // Send back the user's recipes
+    });
+});
 
 
 const verification = (req, res, next) => {
