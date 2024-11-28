@@ -28,13 +28,13 @@ app.use((req, res, next) => {
 
 
 
-app.use(session({
+/*app.use(session({
     secret: 'daniella',   // Replace with a more secure secret
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false }   // Set to true if using HTTPS
 }));
-
+*/
 
 app.post('/login', (req, res) => {
     const userData = req.body;
@@ -45,7 +45,7 @@ app.post('/login', (req, res) => {
 
         if (result && result.accessToken) {
 
-            req.session.token = result.accessToken;
+            //req.session.token = result.accessToken;
 
             res.status(200).json({
                 message: "Login successful",
@@ -129,6 +129,36 @@ const getRecipeById = (RecipeID, callback) => {
             return callback(null, null);
         }
         callback(null, results[0]);
+    });
+};
+
+app.get('/get-recipes/:Category', (req, res) => {
+    const Category = req.params.Category;
+    console.log(`Fetching recipes in category: ${Category}`);
+
+    getRecipesByCategory(Category, (err, re) => {  // re is the result of the query
+        if (err) {
+            console.error('Error fetching recipes:', err);
+            return res.status(500).send("Error fetching recipes");
+        }
+        if (re.length === 0) {  // Use re instead of results
+            return res.status(404).send('No recipes found in this category');
+        }
+        console.log('Recipes fetched:', re);  // Use re instead of results
+        res.json(re);  // Send the results as JSON
+    });
+});
+
+const getRecipesByCategory = (Category, callback) => {
+    const retrieve = 'SELECT * FROM recipes WHERE Category = ?';
+    con.query(retrieve, [Category], (err, results) => {
+        if (err) {
+            return callback(err, null);
+        }
+        if (results.length === 0) {
+            return callback(null, null); // No recipes found in the category
+        }
+        callback(null, results); // Return all recipes in the specified category
     });
 };
 
