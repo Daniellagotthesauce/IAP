@@ -1,9 +1,74 @@
-<script>
-    // Function to parse query parameters from the URL
-    function getQueryParam(param) {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(param);
-    }
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Recipes</title>
+    <link rel="stylesheet" href="../css/manageRecipes.css">
+</head>
+
+<body>
+    <header>
+        <nav class="Links">
+            <a href="recipeOwner.html">Home</a>
+            <a href="addRecipes.html">Add Recipe</a>
+            <a href="allRecipes.html">View Recipes</a>
+            <a href="manageRecipes.html" class="active">Manage Recipes</a>
+        </nav>
+    </header>
+
+    <h2>Manage Your Recipes</h2>
+    <div class="recipe-container" id="manageRecipeContainer"></div>
+
+    <div class="token-container">
+        <p>Your API Token:</p>
+        <div id="tokenDisplay" class="token-display"></div>
+        <button id="copyTokenBtn" class="copy-button">Copy Token</button>
+    </div>
+
+    <script>
+
+        // document.addEventListener('DOMContentLoaded', () => {
+        //     const token = localStorage.getItem('accessToken'); // Get the token from localStorage
+        //     const tokenDisplay = document.getElementById('tokenDisplay');
+
+        //     if (token && tokenDisplay) {
+        //         tokenDisplay.textContent = `Your API Token: ${token}`; // Display the token
+        //     }
+
+        //     // OPTIONAL: Clean up the URL by removing the token query parameter
+        //     const url = new URL(window.location);
+        //     url.searchParams.delete('token');
+        //     window.history.replaceState({}, document.title, url.toString());
+        // });
+        // document.addEventListener('DOMContentLoaded', () => {
+        //     const token = localStorage.getItem('accessToken'); // Get token from localStorage
+        //     const tokenDisplay = document.querySelector('.token-display'); // Correctly target the token display box
+        //     const copyButton = document.getElementById('copyTokenBtn');
+
+        //     if (token && tokenDisplay) {
+        //         tokenDisplay.textContent = token; // Insert the token into the correct box
+        //     }
+
+        //     if (copyButton) {
+        //         copyButton.addEventListener('click', () => {
+        //             if (token) {
+        //                 navigator.clipboard.writeText(token).then(() => {
+        //                     alert('Token copied to clipboard!');
+        //                 }).catch(err => {
+        //                     console.error('Failed to copy token:', err);
+        //                 });
+        //             }
+        //         });
+        //     }
+        // });
+
+        // Function to parse query parameters from the URL
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
 
     async function fetchUserRecipes() {
         const userID = getQueryParam('userID'); // Get userID from the query parameter
