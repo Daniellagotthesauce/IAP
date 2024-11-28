@@ -1,0 +1,101 @@
+/* General styles for the body */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: black; /* Matches the homepage background */
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+/* Header */
+header {
+    background-color: black;
+    height: 120px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+header .Links {
+    display: flex;
+    align-items: center;
+}
+
+header a {
+    text-decoration: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: 0.3s;
+    margin-left: 20px;
+}
+
+.Logo img {
+    height: 100px;
+    width: auto;
+    border-radius: 10px;
+}
+
+/* Recipe Cards Section */
+.recipe-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin: 40px auto; /* Centers the container and adds spacing */
+    padding: 20px;
+}
+
+.recipe-card {
+    background-color: white;
+    color: black; /* Contrast against the dark background */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 280px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+.recipe-card:hover {
+    transform: scale(1.05);
+    background-color: #f5f5f5; /* Slight lightening on hover */
+}
+
+.recipe-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.recipe-category {
+    font-size: 14px;
+    color: #666; /* Slightly dimmer for secondary information */
+}
+
+/* Footer */
+footer {
+    background-color: black;
+    height: 120px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .recipe-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .recipe-card {
+        width: 90%; /* Adjusts the card width for smaller screens */
+    }
+}
