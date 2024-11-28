@@ -145,7 +145,7 @@ app.get('/get-user-recipes', (req, res) => {
             console.error('Error fetching user recipes:', err);
             return res.status(500).send('Error fetching user recipes.');
         }
-
+        console.log(results);
         res.json(results); // Send back the user's recipes
     });
 });
