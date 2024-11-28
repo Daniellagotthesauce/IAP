@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Recipes</title>
     <link rel="stylesheet" href="../css/manageRecipes.css">
 </head>
+
 <body>
     <header>
         <div class="Logo">
             <img src="../images/logo.png" alt="Logo">
         </div>
         <nav class="Links">
-            <a href="homepage.html">Home</a>
-            <a href="addRecipe.html">Add Recipe</a>
+            <a href="recipeOwner.html">Home</a>
+            <a href="addRecipes.html">Add Recipe</a>
+            <a href="allRecipes.html">View Recipe</a>
             <a href="manageRecipes.html" class="active">Manage Recipes</a>
         </nav>
     </header>
@@ -27,31 +30,31 @@
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(param);
         }
-    
+
         async function fetchUserRecipes() {
             const userID = getQueryParam('userID'); // Get userID from the query parameter
-    
+
             if (!userID) {
                 alert('User ID not provided. Please log in again.');
                 window.location.href = 'login.html'; // Redirect to login if no userID is found
                 return;
             }
-    
+
             try {
                 const response = await fetch(`http://localhost:4000/get-user-recipes?userID=${userID}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch user recipes');
                 }
-    
+
                 const recipes = await response.json();
                 const recipeContainer = document.getElementById('manageRecipeContainer'); // Updated to match the correct id
                 recipeContainer.innerHTML = ''; // Clear loading message
-    
+
                 if (recipes.length === 0) {
                     recipeContainer.innerHTML = '<p>You have no recipes yet.</p>';
                     return;
                 }
-    
+
                 recipes.forEach(recipe => {
                     const card = document.createElement('div');
                     card.classList.add('recipe-card');
@@ -59,7 +62,6 @@
                         <h3>${recipe.Title}</h3>
                         <p>${recipe.Description}</p>
                         <div class="actions">
-                            <button onclick="editRecipe(${recipe.RecipeID})">Edit</button>
                             <button onclick="deleteRecipe(${recipe.RecipeID})" class="delete">Delete</button>
                         </div>
                     `;
@@ -70,21 +72,23 @@
                 alert('Failed to load your recipes. Please try again later.');
             }
         }
-    
+
         function editRecipe(recipeID) {
             window.location.href = `editRecipe.html?RecipeID=${recipeID}`;
         }
-    
+
         async function deleteRecipe(recipeID) {
             if (confirm('Are you sure you want to delete this recipe?')) {
                 try {
                     const response = await fetch(`http://localhost:4000/delete-recipe/${recipeID}`, {
                         method: 'DELETE',
                     });
-    
+
                     if (response.ok) {
                         alert('Recipe deleted successfully!');
-                        fetchUserRecipes(); // Refresh the list
+                        fetchUserRecipes();
+                    } else if (response.status === 404) {
+                        alert('Recipe not found.');
                     } else {
                         alert('Failed to delete recipe.');
                     }
@@ -94,9 +98,11 @@
                 }
             }
         }
-    
+
+
         document.addEventListener('DOMContentLoaded', fetchUserRecipes);
     </script>
-    
+
 </body>
+
 </html>

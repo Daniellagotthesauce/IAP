@@ -34,8 +34,8 @@ app.post('/login', (req, res) => {
         }
 
         if (result && result.accessToken) {
-            res.status(200).json({ 
-                message: "Login successful", 
+            res.status(200).json({
+                message: "Login successful",
                 accessToken: result.accessToken,
                 UserTypeID: result.user.UserTypeID,
                 UserID: result.user.UserID,
@@ -134,6 +134,30 @@ app.get('/get-user-recipes', (req, res) => {
         }
 
         res.json(results); // Send back the user's recipes
+    });
+});
+
+app.delete('/delete-recipe/:RecipeID', (req, res) => {
+    const RecipeID = req.params.RecipeID;
+
+    if (!RecipeID) {
+        return res.status(400).send('RecipeID is required.');
+    }
+
+    const deleteQuery = 'DELETE FROM recipes WHERE RecipeID = ?';
+
+    con.query(deleteQuery, [RecipeID], (err, result) => {
+        if (err) {
+            console.error('Error deleting recipe:', err);
+            return res.status(500).send('Error deleting recipe.');
+        }
+
+        if (result.affectedRows === 0) {
+            return res.status(404).send('Recipe not found.');
+        }
+
+        console.log(`Recipe with ID ${RecipeID} deleted successfully.`);
+        res.status(200).send('Recipe deleted successfully.');
     });
 });
 
