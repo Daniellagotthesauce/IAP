@@ -62,13 +62,19 @@ app.post('/register', (req, res) => {
 app.post('/add-recipe', (req, res) => {
     const recipeData = req.body;
 
+    // Validate if all required fields are provided, including UserID
+    if (!recipeData.UserID) {
+        return res.status(400).send('UserID is required.');
+    }
+
     addRecipe(recipeData, (err, result) => {
         if (err) {
-            return res.status(500).send('Error occurred while adding the recipe');
+            return res.status(500).send('Error occurred while adding the recipe.');
         }
-        res.status(200).send('Recipe added successfully');
+        res.status(200).send('Recipe added successfully.');
     });
 });
+
 
 app.get('/get-recipe', (req, res) => {
     console.log("This is the get recipe function");
