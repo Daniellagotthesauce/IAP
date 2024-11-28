@@ -5,126 +5,116 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipe Details</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-        }
-
-        .recipe-container {
-            max-width: 800px;
-            margin: 50px auto;
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .recipe-header {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .recipe-header img {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .recipe-info {
-            flex: 1;
-        }
-
-        .recipe-info h1 {
-            margin: 0;
-            font-size: 1.8em;
-            color: #333;
-        }
-
-        .recipe-info p {
-            margin: 5px 0;
-            color: #666;
-        }
-
-        .rating {
-            display: flex;
-            align-items: center;
-        }
-
-        .rating span {
-            color: #ffcc00;
-            font-size: 1.2em;
-        }
-
-        .section {
-            margin-top: 20px;
-        }
-
-        .section h2 {
-            font-size: 1.4em;
-            margin-bottom: 10px;
-            color: #444;
-        }
-
-        .section ul,
-        .section ol {
-            margin: 0;
-            padding-left: 20px;
-            color: #555;
-        }
-
-        .section ul li,
-        .section ol li {
-            margin-bottom: 5px;
-        }
-    </style>
+    <link rel="stylesheet" href="../css/displayRecipe.css">
 </head>
 
 <body>
+    <header>
+        <div class="Logo">
+            <img src="../images/logo.png" alt="Logo">
+        </div>
+        <nav class="Links">
+            <a href="homepage.html">Home</a>
+            <a href="allRecipes.html">All Recipes</a>
+        </nav>
+    </header>
+
     <div class="recipe-container">
         <div class="recipe-header">
-            <img src="../photos/display.jpeg" alt="Recipe Image">
+            <img src="../photos/display.jpeg" alt="Recipe Image" id="recipeImage">
             <div class="recipe-info">
-                <h1>Recipe Name</h1>
-                <p>Creator: <strong>John Doe</strong></p>
-                <p>Duration: <strong>45 minutes</strong></p>
-                <p>Servings: <strong>4 people</strong></p>
+                <h1 id="recipeTitle">Recipe Name</h1>
+                <p id="recipeCreator">Creator: <strong>Unknown</strong></p>
+                <p id="recipeDuration">Duration: <strong>Unknown</strong></p>
+                <p id="recipeServings">Servings: <strong>Unknown</strong></p>
                 <div class="rating">
-                    <span>★★★★☆</span>
+                    <span id="recipeRating">★★★★☆</span>
                 </div>
             </div>
         </div>
 
         <div class="section">
             <h2>Ingredients</h2>
-            <ul>
-                <li>2 cups of flour</li>
-                <li>1 tsp of sugar</li>
-                <li>1/2 cup of milk</li>
-                <li>1 tbsp of butter</li>
+            <ul id="recipeIngredients">
+                <li>Loading...</li>
             </ul>
         </div>
 
         <div class="section">
             <h2>Steps</h2>
-            <ol>
-                <li>Preheat the oven to 180°C (350°F).</li>
-                <li>Mix the dry ingredients in a bowl.</li>
-                <li>Gradually add milk and mix until smooth.</li>
-                <li>Bake for 20 minutes until golden brown.</li>
+            <ol id="recipeSteps">
+                <li>Loading...</li>
             </ol>
         </div>
 
         <div class="section">
             <h2>Serving Tips</h2>
-            <p>Serve warm with a drizzle of honey or a side of butter.</p>
+            <p id="recipeServingTips">Loading...</p>
         </div>
     </div>
+
+    <footer>
+        <p>&copy; 2024 Recipe Website. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Function to parse query parameters from the URL
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        async function fetchRecipeDetails() {
+            const RecipeID = getQueryParam('RecipeID'); // Get RecipeID from URL
+            if (!RecipeID) {
+                alert('Invalid recipe selected');
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:4000/get-recipe/${RecipeID}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch recipe details');
+                }
+                const recipe = await response.json();
+
+                if (!recipe) {
+                    alert('Recipe not found');
+                    return;
+                }
+
+                console.log('Fetched Recipe:', recipe);
+
+                // Dynamically populate the recipe details
+                document.getElementById('recipeTitle').textContent = recipe.Title || 'Unknown';
+                document.getElementById('recipeCreator').innerHTML = `Creator: <strong>${recipe.Creator || 'Unknown'}</strong>`;
+                document.getElementById('recipeDuration').innerHTML = `Duration: <strong>${recipe.Duration || 'Unknown'}</strong>`;
+                document.getElementById('recipeServings').innerHTML = `Servings: <strong>${recipe.Servings || 'Unknown'}</strong>`;
+                document.getElementById('recipeRating').textContent = recipe.Rating || 'No Rating Available';
+                document.getElementById('recipeImage').src = recipe.ImageURL || '../photos/display.jpeg';
+
+                const ingredientsList = document.getElementById('recipeIngredients');
+                ingredientsList.innerHTML = recipe.Ingredients
+                    .split(',')
+                    .map(ingredient => `<li>${ingredient.trim()}</li>`)
+                    .join('');
+
+                const stepsList = document.getElementById('recipeSteps');
+                stepsList.innerHTML = recipe.Steps
+                    .split('.')
+                    .map(step => `<li>${step.trim()}</li>`)
+                    .join('');
+
+                document.getElementById('recipeServingTips').textContent =
+                    recipe.ServingTips || 'No serving tips available.';
+            } catch (error) {
+                console.error('Error fetching recipe details:', error);
+                alert('Failed to load recipe details. Please try again later.');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchRecipeDetails);
+    </script>
 </body>
 
 </html>
