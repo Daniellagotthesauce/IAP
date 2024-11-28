@@ -71,7 +71,9 @@
         }
 
         async function fetchUserRecipes() {
+            console.log('Fetching user recipes...');
             const userID = getQueryParam('userID'); // Get userID from the query parameter
+            console.log('User ID:', userID);
 
             if (!userID) {
                 alert('User ID not provided. Please log in again.');
@@ -80,13 +82,20 @@
             }
 
             try {
+                const recipeContainer = document.getElementById('manageRecipeContainer');
+                if (!recipeContainer) {
+                    console.error('Element with id "manageRecipeContainer" not found in the DOM.');
+                    return;
+                }
+
                 const response = await fetch(`http://localhost:4000/get-user-recipes?userID=${userID}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch user recipes');
                 }
 
                 const recipes = await response.json();
-                const recipeContainer = document.getElementById('manageRecipeContainer'); // Updated to match the correct id
+                console.log('Fetched Recipes:', recipes);
+
                 recipeContainer.innerHTML = ''; // Clear loading message
 
                 if (recipes.length === 0) {
@@ -98,12 +107,12 @@
                     const card = document.createElement('div');
                     card.classList.add('recipe-card');
                     card.innerHTML = `
-                        <h3>${recipe.Title}</h3>
-                        <p>${recipe.Description}</p>
-                        <div class="actions">
-                            <button onclick="deleteRecipe(${recipe.RecipeID})" class="delete">Delete</button>
-                        </div>
-                    `;
+                <h3>${recipe.Title}</h3>
+                <p>${recipe.Description}</p>
+                <div class="actions">
+                    <button onclick="deleteRecipe(${recipe.RecipeID})" class="delete">Delete</button>
+                </div>
+            `;
                     recipeContainer.appendChild(card);
                 });
             } catch (error) {
@@ -111,6 +120,7 @@
                 alert('Failed to load your recipes. Please try again later.');
             }
         }
+
 
         function editRecipe(recipeID) {
             window.location.href = `editRecipe.html?RecipeID=${recipeID}`;
