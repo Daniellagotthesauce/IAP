@@ -75,11 +75,11 @@
             const userID = getQueryParam('userID'); // Get userID from the query parameter
             console.log('User ID:', userID);
 
-            if (!userID) {
-                alert('User ID not provided. Please log in again.');
-                window.location.href = 'login.html'; // Redirect to login if no userID is found
-                return;
-            }
+        if (!userID) {
+            alert('User ID not provided. Please log in again.');
+            window.location.href = 'login.html'; // Redirect to login if no userID is found
+            return;
+        }
 
             try {
                 const recipeContainer = document.getElementById('manageRecipeContainer');
@@ -98,10 +98,10 @@
 
                 recipeContainer.innerHTML = ''; // Clear loading message
 
-                if (recipes.length === 0) {
-                    recipeContainer.innerHTML = '<p>You have no recipes yet.</p>';
-                    return;
-                }
+            if (recipes.length === 0) {
+                recipeContainer.innerHTML = '<p>You have no recipes yet.</p>';
+                return;
+            }
 
                 recipes.forEach(recipe => {
                     const card = document.createElement('div');
@@ -122,36 +122,29 @@
         }
 
 
-        function editRecipe(recipeID) {
-            window.location.href = `editRecipe.html?RecipeID=${recipeID}`;
-        }
+    function editRecipe(recipeID) {
+        window.location.href = `editRecipe.html?RecipeID=${recipeID}`;
+    }
 
-        async function deleteRecipe(recipeID) {
-            if (confirm('Are you sure you want to delete this recipe?')) {
-                try {
-                    const response = await fetch(`http://localhost:4000/delete-recipe/${recipeID}`, {
-                        method: 'DELETE',
-                    });
+    async function deleteRecipe(recipeID) {
+        if (confirm('Are you sure you want to delete this recipe?')) {
+            try {
+                const response = await fetch(`http://localhost:4000/delete-recipe/${recipeID}`, {
+                    method: 'DELETE',
+                });
 
-                    if (response.ok) {
-                        alert('Recipe deleted successfully!');
-                        fetchUserRecipes();
-                    } else if (response.status === 404) {
-                        alert('Recipe not found.');
-                    } else {
-                        alert('Failed to delete recipe.');
-                    }
-                } catch (error) {
-                    console.error('Error deleting recipe:', error);
-                    alert('An error occurred while deleting the recipe.');
+                if (response.ok) {
+                    alert('Recipe deleted successfully!');
+                    fetchUserRecipes(); // Refresh the list
+                } else {
+                    alert('Failed to delete recipe.');
                 }
+            } catch (error) {
+                console.error('Error deleting recipe:', error);
+                alert('An error occurred while deleting the recipe.');
             }
         }
+    }
 
-
-        document.addEventListener('DOMContentLoaded', fetchUserRecipes);
-    </script>
-
-</body>
-
-</html>
+    document.addEventListener('DOMContentLoaded', fetchUserRecipes);
+</script>
